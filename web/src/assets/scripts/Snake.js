@@ -48,7 +48,6 @@ export class Snake extends AcGameObject {
 
     set_direction(d) {
         this.direction = d;
-        console.log(this.direction);
     }
 
     check_tail_increasing() {
