@@ -112,7 +112,7 @@ export class GameMap extends AcGameObject {
             else if (e.key === "ArrowRight") snake1.set_direction(1);
             else if (e.key === "ArrowDown") snake1.set_direction(2);
             else if (e.key === "ArrowLeft") snake1.set_direction(3);
-            console.log(e.key, snake0.direction);
+            //console.log(e.key, snake0.direction);
         });
     }
 
@@ -135,7 +135,7 @@ export class GameMap extends AcGameObject {
     check_ready() {// 判断两条蛇是否都准备好下一个回合了
         for (const snake of this.snakes) {
             // js中判断是否相等 多一个=
-            console.log(snake.status, snake.direction, snake.color);
+           // console.log(snake.status, snake.direction, snake.color);
             if (snake.status !== "idle") return false;
             if (snake.direction === -1) return false;
         }

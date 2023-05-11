@@ -15,6 +15,7 @@ public class InfoController {
 
     @GetMapping("/user/account/info/")
     public Map<String, String> getInfo() {
+        System.out.println("已调取");
         return infoService.getInfo();
     }
 

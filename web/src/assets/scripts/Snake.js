@@ -152,8 +152,8 @@ export class Snake extends AcGameObject {
 
         ctx.fillStyle = "black";
         for (let i = 0; i < 2; i++) {
-            console.log(this.eye_direction);
-            console.log(this.eye_dy[this.eye_direction][0]);
+            // console.log(this.eye_direction);
+            // console.log(this.eye_dy[this.eye_direction][0]);
             const eye_x = (this.cells[0].x + this.eye_dx[this.eye_direction][i] * 0.15) * L;
             const eye_y = (this.cells[0].y + this.eye_dy[this.eye_direction][i] * 0.15) * L;
 
