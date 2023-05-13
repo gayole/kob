@@ -21,14 +21,16 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <router-link class="dropdown-tiem" :to="{name: 'user_bot_index'}">我的bots</router-link>
+                          <a class="dropdown-tiem" :to="{name: 'user_bot_index'}">我的bots</a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" @click="logout" >退出</a></li>
+                        <li>
+                          <a class="dropdown-item" href="#" @click="logout" >退出</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
-            <ul class="navbar-nav" v-else>
+            <ul class="navbar-nav" v-else-if="!$store.state.user.pulling_info || ((route_name === 'user_account_register' || route_name === 'user_account_login') && !$store.state.user.is_jwt)">
               <li class="nav-item dropdown">
                 <router-link class="nav-link" :to="{name:'user_account_login'}" role="button">
                   登录

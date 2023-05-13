@@ -8,11 +8,16 @@ export default {
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true,
+        is_jwt:false,
+        router_name: "home"
     },
     getters: {
+        router_name : state => state.router_name,
+        is_jwt : state => state.is_jwt
     },
     mutations: {
-        updatedUser(state, user) {
+        updateUser(state, user) {
             state.id = user.id;
             state.username = user.username;
             state.photo = user.photo;
@@ -27,7 +32,18 @@ export default {
             state.photo = "";
             state.token = "";
             state.is_login = false;
+            state.pulling_info = false;
+            state.is_jwt = false;
             console.log("调用logout()2");
+        },
+        updatePullingInfo(state, pulling_info) {
+            state.pulling_info = pulling_info;
+        },
+        is_jwt(state,flag) {
+            state.is_jwt = flag;
+        },
+        updateRouter(state, name) {
+            state.router_name = name;
         }
     },
     actions: {
@@ -36,11 +52,13 @@ export default {
                 url:"http://127.0.0.1:3000/user/account/token/",
                 type:"post",
                 data: {
-                    username:data.username,
+                    username: data.username,
                     password: data.password,
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
+                        localStorage.setItem("jwt_token",resp.token);
+                        //localStorage.setItem("from_router", "user_account_login");
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     } else {
@@ -62,7 +80,7 @@ export default {
                 },
                 success(resp) {
                     if (resp.error_message === "success") {
-                        context.commit("updatedUser", {
+                        context.commit("updateUser", {
                             ...resp,
                             is_login: true,
                         });
@@ -75,6 +93,7 @@ export default {
         },
         logout(context) {
             console.log("调用logout()3");
+            localStorage.removeItem("jwt_token");            
             context.commit("logout");
         }
     },

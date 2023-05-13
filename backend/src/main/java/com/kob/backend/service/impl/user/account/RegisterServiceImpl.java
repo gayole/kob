@@ -23,12 +23,13 @@ public class RegisterServiceImpl implements RegisterService {
 
     public Map<String, String> register(String username, String password, String confirmPassword) {
         Map<String, String> map = new HashMap<>();
-        if (username == null) {
+        System.out.println(username + "/" + password + "/" + confirmPassword);
+        if (username.length() == 0) {
             map.put("error_message", "用户名不能为空");
             return map;
         }
 
-        if (password == null || confirmPassword == null) {
+        if (password.length() == 0 || confirmPassword.length() == 0) {
             map.put("error_message", "密码不能为空");
             return map;
         }
@@ -40,13 +41,14 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
-        if (password.length() == 0 || confirmPassword.length() == 0) {
-            map.put("error_message", "密码不能为空");
+        System.out.println("password.length() : " + password.length());
+        if (password.length() > 100) {
+            map.put("error_message", "密码不能大于100位");
             return map;
         }
 
-        if (password.length() > 100 || confirmPassword.length() > 100) {
-            map.put("error_message", "密码不能大于100");
+        if (password.length() < 8) {
+            map.put("error_message", "密码不能小于8位");
             return map;
         }
 
@@ -55,7 +57,7 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
-        QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
         List<User> users = userMapper.selectList(queryWrapper);
         if (!users.isEmpty()){

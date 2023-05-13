@@ -6,4 +6,4 @@ export class Cell {
         this.x = c + 0.5;
         this.y = r + 0.5;
     }
-}
+}   

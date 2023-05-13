@@ -1,5 +1,5 @@
 <template>
-<ContentField>
+<ContentField v-if="!$store.state.user.pulling_info">
     <div class="row justify-content-md-center">
         <div class="col-3">
             <form @submit.prevent="login">
@@ -24,6 +24,8 @@ import ContentField from '@/components/ContentField'
 import { useStore } from 'vuex';
 import { ref } from 'vue'
 import router from '@/router/index';
+//import store from '@/store';
+
 
 export default{
     components: {
@@ -31,25 +33,42 @@ export default{
     },
     setup() {
         const store = useStore();
+        const router_name = store.getters.router_name;
         let username = ref('');
         let password = ref('');
         let error_message = ref('');
+
+        const jwt_token = localStorage.getItem("jwt_token");
+        if (jwt_token) {
+            store.commit("updateToken", jwt_token);
+            store.commit("is_jwt", true);
+            //console.log(router_name);     // 刷新定向到原页面尝试
+            store.dispatch("getinfo", {
+                success() {
+                    router.push({name: router_name });
+                    store.commit("updatePullingInfo", false);
+                },
+                error() {
+                    store.commit("updatePullingInfo", false);
+                }
+            })
+        } else {
+            store.commit("updatePullingInfo", false);
+        }
+
         // 触发函数
         const login = () => {
             error_message.value = "";
             store.dispatch("login", {
                 username: username.value,
                 password: password.value,
-                success(resp) {
-                    console.log("login()调用成功");
+                success() {
                     store.dispatch("getinfo", {
-                        success(resp) {
-                            console.log("getinfo1调用成功");
+                        success() {
                             router.push({name: "home"});
-                            console.log(store.state.user);
                         },
                         error() {
-                            console.log("shibai");
+                            console.log("login函数调用失败");
                         }
                     })
                 },

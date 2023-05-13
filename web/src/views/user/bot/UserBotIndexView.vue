@@ -1,6 +1,6 @@
 <template>
     <ContentField>
-        我的bots
+        我的bot
     </ContentField>
 </template>
 <script>
